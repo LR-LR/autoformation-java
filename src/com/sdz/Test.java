@@ -1,19 +1,24 @@
 package com.sdz;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class Test {
-
   public static void main(String[] args) {
+    HashSet hs = new HashSet();
+    hs.add("toto");
+    hs.add(12);
+    hs.add('d');
 
-    ArrayList al = new ArrayList();
-    al.add(12);
-    al.add("Une chaîne de caractères !");
-    al.add(12.20f);
-    al.add('d');
+    Iterator it = hs.iterator();
+    while (it.hasNext())
+      System.out.println(it.next());
 
-    for (int i = 0; i < al.size(); i++) {
-      System.out.println("donnée à l'indice " + i + " = " + al.get(i));
-    }
+    System.out.println("\nParcours avec un tableau d'objet");
+    System.out.println("-----------------------------------");
+
+    Object[] obj = hs.toArray();
+    for (Object o : obj)
+      System.out.println(o);
   }
 }
