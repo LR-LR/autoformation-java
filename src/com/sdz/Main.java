@@ -1,14 +1,18 @@
 package com.sdz;
 
-/**
- * Main
- */
-public class Main {
-  public static void main(String args[]) {
-    Langage l1 = Langage.JAVA;
-    Langage l2 = Langage.PHP;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
-    l1.getEditor();
-    l2.getEditor();
+public class Main {
+
+  public static void main(String[] args) {
+    List l = new LinkedList();
+    l.add(12);
+    l.add("toto ! !");
+    l.add(12.20f);
+
+    for (int i = 0; i < l.size(); i++)
+      System.out.println("Élément à l'index " + i + " = " + l.get(i));
   }
 }
