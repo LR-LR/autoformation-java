@@ -8,18 +8,16 @@ import java.util.List;
  */
 public class Main {
   public static void main(String[] args) {
-
-    // Liste de voiture
     List<Voiture> listVoiture = new ArrayList<Voiture>();
-    listVoiture.add(new Voiture());
     listVoiture.add(new Voiture());
 
     List<VoitureSansPermis> listVoitureSP = new ArrayList<VoitureSansPermis>();
     listVoitureSP.add(new VoitureSansPermis());
-    listVoitureSP.add(new VoitureSansPermis());
 
-    affiche(listVoiture);
-    affiche(listVoitureSP);
+    Garage garage = new Garage();
+    garage.add(listVoiture);
+    System.out.println("--------------------------");
+    garage.add(listVoitureSP);
   }
 
   // Avec cette méthode, on accepte aussi bien les collections de Voiture que les
