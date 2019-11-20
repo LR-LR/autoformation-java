@@ -23,10 +23,10 @@ public class Main {
         int i = 1;
         // On parcour la liste des fichiers et repertoires
         for (File nom : file.listFiles()) {
-          System.out.println("\t\t" + ((nom.isDirectory()) ? nom.getName() + "/" : nom.getName()));
+          System.out.print("\t\t" + ((nom.isDirectory()) ? nom.getName() + "/" : nom.getName()));
 
           if ((i % 4) == 0) {
-            System.out.println("\n");
+            System.out.print("\n");
           }
           i++;
         }
