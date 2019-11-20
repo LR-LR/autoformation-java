@@ -1,30 +1,40 @@
 package com.sdz;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
 /**
  * Main
  */
 public class Main {
+
   public static void main(String[] args) {
-    List<Voiture> listVoiture = new ArrayList<Voiture>();
-    listVoiture.add(new Voiture());
+    // Création de l'objet file
+    File f = new File("test.txt");
+    System.out.println("Chemin absolu : " + f.getAbsolutePath());
+    System.out.println("Nom : " + f.getName());
+    System.out.println("Existe ? : " + f.exists());
+    System.out.println("Repertoire ? : " + f.isDirectory());
+    System.out.println("Fichier ? : " + f.isFile());
 
-    List<VoitureSansPermis> listVoitureSP = new ArrayList<VoitureSansPermis>();
-    listVoitureSP.add(new VoitureSansPermis());
+    System.out.println("Affichage des lecteurs à la racine du PC : ");
+    for (File file : f.listRoots()) {
+      System.out.println(file.getAbsolutePath());
+      try {
+        int i = 1;
+        // On parcour la liste des fichiers et repertoires
+        for (File nom : file.listFiles()) {
+          System.out.println("\t\t" + ((nom.isDirectory()) ? nom.getName() + "/" : nom.getName()));
 
-    Garage garage = new Garage();
-    garage.add(listVoiture);
-    System.out.println("--------------------------");
-    garage.add(listVoitureSP);
-  }
-
-  // Avec cette méthode, on accepte aussi bien les collections de Voiture que les
-  // collection de VoitureSansPermis
-  static void affiche(List<? extends Voiture> list) {
-
-    for (Voiture v : list)
-      System.out.print(v.toString());
+          if ((i % 4) == 0) {
+            System.out.println("\n");
+          }
+          i++;
+        }
+        System.out.println("\n");
+      } catch (NullPointerException e) {
+        // L'instruction peut générer une NullPointerException
+        // S'il n'y a pas de fichier
+      }
+    }
   }
 }
