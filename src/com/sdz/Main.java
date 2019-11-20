@@ -9,27 +9,24 @@ import java.util.List;
 public class Main {
   public static void main(String[] args) {
 
-    System.out.println("Liste de String");
-    System.out.println("------------------------------");
-    List<String> listeString = new ArrayList<String>();
-    listeString.add("Une chaîne");
-    listeString.add("Une autre");
-    listeString.add("Encore une autre");
-    listeString.add("Allez, une dernière");
+    // Liste de voiture
+    List<Voiture> listVoiture = new ArrayList<Voiture>();
+    listVoiture.add(new Voiture());
+    listVoiture.add(new Voiture());
 
-    for (String str : listeString)
-      System.out.println(str);
+    List<VoitureSansPermis> listVoitureSP = new ArrayList<VoitureSansPermis>();
+    listVoitureSP.add(new VoitureSansPermis());
+    listVoitureSP.add(new VoitureSansPermis());
 
-    System.out.println("\nListe de float");
-    System.out.println("------------------------------");
+    affiche(listVoiture);
+    affiche(listVoitureSP);
+  }
 
-    List<Float> listeFloat = new ArrayList<Float>();
-    listeFloat.add(12.25f);
-    listeFloat.add(15.25f);
-    listeFloat.add(2.25f);
-    listeFloat.add(128764.25f);
+  // Avec cette méthode, on accepte aussi bien les collections de Voiture que les
+  // collection de VoitureSansPermis
+  static void affiche(List<? extends Voiture> list) {
 
-    for (float f : listeFloat)
-      System.out.println(f);
+    for (Voiture v : list)
+      System.out.print(v.toString());
   }
 }

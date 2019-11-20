@@ -5,6 +5,13 @@
       "name": "CodeLens (Launch) - Main",
       "request": "launch",
       "mainClass": "com.sdz.Main",
+      "projectName": "a"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - Main",
+      "request": "launch",
+      "mainClass": "com.sdz.Main",
       "projectName": "autoformation-java"
     }
   ]
