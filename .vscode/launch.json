@@ -4,7 +4,7 @@
       "type": "java",
       "name": "CodeLens (Launch) - Main",
       "request": "launch",
-      "mainClass": "com.sdz.Main",
+      "mainClass": "com.sdz.Test",
       "projectName": "a"
     }
   ]
