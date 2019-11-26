@@ -1,80 +1,43 @@
 package com.sdz;
 
-//Packages à importer afin d'utiliser les objets
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+// Packages a importer afin d'utiliser l'objet File
+import java.io.*;
 
 public class Main {
   public static void main(String[] args) {
     // Nous déclarons nos objets en dehors du bloc try/catch
-    FileInputStream fis = null;
-    FileOutputStream fos = null;
+    ObjectInputStream ois;
+    ObjectOutputStream oos;
 
     try {
-      // On instancie nos objets :
-      // fis va lire le fichier
-      // fos va écrire dans le nouveau !
-      fis = new FileInputStream(new File("test.txt"));
-      fos = new FileOutputStream(new File("test2.txt"));
+      oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File("game.txt"))));
 
-      // On crée un tableau de byte pour indiquer le nombre de bytes lus à
-      // chaque tour de boucle
-      byte[] buf = new byte[8];
+      // Nous allons écrire chaque objet Game dans le fichier
+      oos.writeObject(new Game("Assasins Creed", "Aventure", 45.69));
+      oos.writeObject(new Game("Tomb Raider", "Plateforme", 23.45));
+      oos.writeObject(new Game("Tetris", "Stratégie", 2.50));
 
-      // On crée une variable de type int pour y affecter le résultat de
-      // la lecture
-      // Vaut -1 quand c'est fini
-      int n = 0;
+      // Fermeture du flux
+      oos.close();
 
-      // Tant que l'affectation dans la variable est possible, on boucle
-      // Lorsque la lecture du fichier est terminée l'affectation n'est
-      // plus possible !
-      // On sort donc de la boucle
-      while ((n = fis.read(buf)) >= 0) {
-        // On écrit dans notre deuxième fichier avec l'objet adéquat
-        fos.write(buf);
-        // On affiche ce qu'a lu notre boucle au format byte et au
-        // format char
-        for (byte bit : buf) {
-          System.out.print("\t" + bit + "(" + (char) bit + ")");
-        }
-        System.out.println("");
-        // Nous réinitialisons le buffer à vide
-        // au cas où les derniers byte lus ne soient pas un multiple de 8
-        // Ceci permet d'avoir un buffer vierge à chaque lecture et ne pas avoir de
-        // doublon en fin de fichier
-        buf = new byte[8];
+      // On récupère maintenant les données !
+      ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File("game.txt"))));
 
+      try {
+        System.out.println("Affichage des jeux :");
+        System.out.println("***************************\n");
+        System.out.println(((Game) ois.readObject()).toString());
+        System.out.println(((Game) ois.readObject()).toString());
+        System.out.println(((Game) ois.readObject()).toString());
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
       }
-      System.out.println("Copie terminée !");
 
+      ois.close();
     } catch (FileNotFoundException e) {
-      // Cette exception est levée si l'objet FileInputStream ne trouve
-      // aucun fichier
       e.printStackTrace();
     } catch (IOException e) {
-      // Celle-ci se produit lors d'une erreur d'écriture ou de lecture
       e.printStackTrace();
-    } finally {
-      // On ferme nos flux de données dans un bloc finally pour s'assurer
-      // que ces instructions seront exécutées dans tous les cas même si
-      // une exception est levée !
-      try {
-        if (fis != null)
-          fis.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-
-      try {
-        if (fos != null)
-          fos.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
   }
 }
