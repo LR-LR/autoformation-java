@@ -1,39 +1,56 @@
 package com.sdz;
 
-// Packages a importer afin d'utiliser l'objet File
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 
 public class Main {
   public static void main(String[] args) {
-    // Nous déclarons nos objets en dehors du bloc try/catch
-    ObjectInputStream ois;
-    ObjectOutputStream oos;
+    FileInputStream fis;
+    BufferedInputStream bis;
+    FileChannel fc;
 
     try {
-      oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File("game.txt"))));
+      // Création des objets
+      fis = new FileInputStream(new File("dictionnaire.txt"));
+      bis = new BufferedInputStream(fis);
+      // Démarrage du chrone
+      long time = System.currentTimeMillis();
+      // Lecture
+      while (bis.read() != -1)
+        ;
+      // Temps d'exécution
+      System.out.println("Temps d'exécution avec un buffer conventionnel : " + (System.currentTimeMillis() - time));
 
-      // Nous allons écrire chaque objet Game dans le fichier
-      oos.writeObject(new Game("Assasins Creed", "Aventure", 45.69));
-      oos.writeObject(new Game("Tomb Raider", "Plateforme", 23.45));
-      oos.writeObject(new Game("Tetris", "Stratégie", 2.50));
+      // Création d'un nouveau flux de fichier
+      fis = new FileInputStream(new File("dictionnaire.txt"));
+      // On récupère le canal
+      fc = fis.getChannel();
+      // On en dédit la taille
+      int size = (int) fc.size();
+      // On crée un buffer correspondant à la taille du fichier
+      ByteBuffer bBuff = ByteBuffer.allocate(size);
 
-      // Fermeture du flux
-      oos.close();
+      // Démarrage du chrono
+      time = System.currentTimeMillis();
+      // Démerrage de la lecture
+      fc.read(bBuff);
+      // On prépare à la lecture avec l'appel à flip
+      bBuff.flip();
+      // Affichage du temps d'exécution
+      System.out.println("Temps d'exécution avec un nouveau buffer : " + (System.currentTimeMillis() - time));
 
-      // On récupère maintenant les données !
-      ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File("game.txt"))));
+      // Puisque nous avons utilisé un buffer de byte afin de récupérer les données
+      // Nous pouvons utiliser un tableau de byte
+      // La méthode array retourne un tableau de byte
+      byte[] tabByte = bBuff.array();
 
-      try {
-        System.out.println("Affichage des jeux :");
-        System.out.println("***************************\n");
-        System.out.println(((Game) ois.readObject()).toString());
-        System.out.println(((Game) ois.readObject()).toString());
-        System.out.println(((Game) ois.readObject()).toString());
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      }
-
-      ois.close();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
