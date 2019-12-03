@@ -1,60 +1,41 @@
 package com.sdz;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
   public static void main(String[] args) {
-    FileInputStream fis;
-    BufferedInputStream bis;
-    FileChannel fc;
+    Path path = Paths.get("dictionnaire.txt");
+    System.out.println("Chemin absolu du fichier : " + path.toAbsolutePath());
+    System.out.println("Est-ce qu'il existe ? " + Files.exists(path));
+    System.out.println("Nom du fichier : " + path.getFileName());
+    System.out.println("Est-ce un répertoire ? " + Files.isDirectory(path));
 
-    try {
-      // Création des objets
-      fis = new FileInputStream(new File("dictionnaire.txt"));
-      bis = new BufferedInputStream(fis);
-      // Démarrage du chrone
-      long time = System.currentTimeMillis();
-      // Lecture
-      while (bis.read() != -1)
-        ;
-      // Temps d'exécution
-      System.out.println("Temps d'exécution avec un buffer conventionnel : " + (System.currentTimeMillis() - time));
+    // On récupère maintenant la liste des répertoires ans une collection typée
+    // Via l'objet FileSystem qui représente le système de fichier de l'OS
+    // hébergeanr la JVM
+    Iterable<Path> roots = FileSystems.getDefault().getRootDirectories();
 
-      // Création d'un nouveau flux de fichier
-      fis = new FileInputStream(new File("dictionnaire.txt"));
-      // On récupère le canal
-      fc = fis.getChannel();
-      // On en dédit la taille
-      int size = (int) fc.size();
-      // On crée un buffer correspondant à la taille du fichier
-      ByteBuffer bBuff = ByteBuffer.allocate(size);
-
-      // Démarrage du chrono
-      time = System.currentTimeMillis();
-      // Démerrage de la lecture
-      fc.read(bBuff);
-      // On prépare à la lecture avec l'appel à flip
-      bBuff.flip();
-      // Affichage du temps d'exécution
-      System.out.println("Temps d'exécution avec un nouveau buffer : " + (System.currentTimeMillis() - time));
-
-      // Puisque nous avons utilisé un buffer de byte afin de récupérer les données
-      // Nous pouvons utiliser un tableau de byte
-      // La méthode array retourne un tableau de byte
-      byte[] tabByte = bBuff.array();
-
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
+    // Maintenant, il ne nous reste plus qu'à parcourir
+    for (Path chemin : roots) {
+      System.out.println(chemin);
+      // Pour lister un répertoire, il faut utiliser l'objet DirectoryStream
+      // L'objet Files permet de créer ce type d'objet afin de pouvoir l'utiliser
+      try (DirectoryStream<Path> listing = Files.newDirectoryStream(chemin)) {
+        int i = 0;
+        for (Path nom : listing) {
+          System.out.println("\t\t" + ((Files.isDirectory(nom)) ? nom + "/" : nom));
+          i++;
+          if (i % 4 == 0)
+            System.out.println("\n");
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
   }
 }
