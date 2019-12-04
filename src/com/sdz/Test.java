@@ -1,5 +1,7 @@
 package com.sdz;
 
+import com.sdz.comportement.*;
+
 /**
  * Test
  */
@@ -14,5 +16,11 @@ class Test {
       tPers[i].seDeplacer();
       tPers[i].soigner();
     }
+
+    System.out.println("\n*****************************************");
+    Personnage pers = new Guerrier();
+    pers.soigner();
+    pers.setSoin(new Operation());
+    pers.soigner();
   }
 }
