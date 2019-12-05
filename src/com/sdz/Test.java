@@ -22,5 +22,14 @@ class Test {
     pers.soigner();
     pers.setSoin(new Operation());
     pers.soigner();
+
+    // Utilisation classe anonymé
+    pers.setSoin(new Soin() {
+      public void soigner() {
+        System.out.println("Je soigne avec une classe anonyme !");
+      }
+    });
+
+    pers.soigner();
   }
 }
