@@ -23,7 +23,7 @@ class Test {
     pers.setSoin(new Operation());
     pers.soigner();
 
-    // Utilisation classe anonymé
+    // Utilisation classe anonyme
     pers.setSoin(new Soin() {
       public void soigner() {
         System.out.println("Je soigne avec une classe anonyme !");
@@ -31,5 +31,16 @@ class Test {
     });
 
     pers.soigner();
+
+    // Sans utilisation des lambdas
+    // Dialoguer d = new Dialoguer() {
+    // public void parler(String question) {
+    // System.out.println("Tu as dis : " + question);
+    // }
+    // };
+
+    // Avec utilisation des lambdas
+    Dialoguer d = (s) -> System.out.println("Tu as dis : " + s);
+    d.parler("Bonjour !");
   }
 }
