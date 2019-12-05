@@ -7,49 +7,41 @@ import java.lang.reflect.*;
  */
 public class Main {
   public static void main(String[] args) {
-    Class<?> c = String.class;
-    // La fameuse méthode finale dont e vous parlais dans le chapitre sur l'héritage
-    // Cette méthode vient de la classe Object
+    String nom = Paire.class.getName();
+    try {
+      // On crée un objet class
+      Class<?> cl = Class.forName(nom);
+      // Nouvelle instance de la calsse Paire
+      Object o = cl.newInstance();
 
-    // Interfaces
-    Class<?>[] faces = c.getInterfaces();
-    System.out.println("Il y a " + faces.length + " interfaces implémentés dans la classe " + c.getName());
-    for (Class<?> class1 : faces) {
-      System.out.println(class1);
-    }
+      // On crée les paramètres du constructeur
+      Class<?>[] types = new Class[] { String.class, String.class };
+      // On récupère le constructeur avec les deux paramètres
+      Constructor<?> ct = cl.getConstructor(types);
 
-    // Méthodes
-    Method[] m = c.getMethods();
-    System.out.println("\n\nIl y a " + m.length + " méthodes implémentés dans la classe");
-    for (Method method : m) {
-      System.out.println(method);
+      // On instancie l'objet avec le constucteur surchargé !
+      Object o2 = ct.newInstance(new String[] { "valeur 1 ", "valeur 2" });
 
-      Class<?>[] p = method.getParameterTypes();
-      for (Class<?> param : p) {
-        System.out.println(param.getName());
-      }
+      // On va chercher la méthode toString(), elle n'a aucun paramètre
+      Method m = cl.getMethod("toString", null);
 
-      System.out.println("----------------------------------\n");
-    }
-
-    // Champs
-    Field[] f = c.getDeclaredFields();
-    System.out.println("\n\nIl y a " + f.length + " champs dans cette classe");
-    for (Field field : f) {
-      System.out.println(field.getName());
-    }
-
-    // Constructeurs
-    Constructor[] construc = c.getConstructors();
-    System.out.println("Il y a " + construc.length + " constructeurs dans cette classe");
-    for (Constructor constructor : construc) {
-      System.out.println(constructor.getName());
-
-      Class<?>[] param = constructor.getParameterTypes();
-      for (Class<?> params : param) {
-        System.out.println(params);
-      }
-      System.out.println("-----------------------------\n");
+      // La méthode invoke exécute la méthode sur l'objet passé en paramètre
+      // Pas de paramètre, donc null en deuxième paramètre de la méthode invoke
+      System.out.println("---------------------------------------------");
+      System.out.println("Méthode " + m.getName() + " sur o2: " + m.invoke(o2, null));
+      System.out.println("Méthode " + m.getName() + " sur o: " + m.invoke(o, null));
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
     }
   }
 }
