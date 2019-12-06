@@ -2,6 +2,41 @@
   "configurations": [
     {
       "type": "java",
+      "name": "CodeLens (Launch) - TestMethodsReference",
+      "request": "launch",
+      "mainClass": "com.sdz.TestMethodsReference",
+      "projectName": "a"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - TestSupplier",
+      "request": "launch",
+      "mainClass": "com.sdz.TestSupplier",
+      "projectName": "a"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - TestPredicate",
+      "request": "launch",
+      "mainClass": "com.sdz.TestPredicate",
+      "projectName": "a"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - TestConsumer",
+      "request": "launch",
+      "mainClass": "com.sdz.TestConsumer",
+      "projectName": "a"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - TestFunction",
+      "request": "launch",
+      "mainClass": "com.sdz.TestFunction",
+      "projectName": "a"
+    },
+    {
+      "type": "java",
       "name": "CodeLens (Launch) - Main",
       "request": "launch",
       "mainClass": "com.sdz.Test",
