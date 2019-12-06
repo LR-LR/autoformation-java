@@ -8,7 +8,6 @@ import java.util.function.ToIntFunction;
  * TestMethodsReference
  */
 public class TestMethodsReference {
-
   public static void main(String[] args) {
     // Conversion d'un String en Double avec une réfence à une méthode statique
     ToDoubleFunction<String> stringToDoubleLambda = (s) -> Double.parseDouble(s);
