@@ -2,9 +2,9 @@
   "configurations": [
     {
       "type": "java",
-      "name": "CodeLens (Launch) - Main",
+      "name": "CodeLens (Launch) - TestStream",
       "request": "launch",
-      "mainClass": "com.sdz.Test",
+      "mainClass": "com.sdz.TestStream",
       "projectName": "a"
     }
   ]
